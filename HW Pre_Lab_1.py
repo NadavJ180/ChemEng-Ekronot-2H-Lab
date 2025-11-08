@@ -1,6 +1,6 @@
 import numpy as np
-import scipy.integrate as spi
-from scipy.integrate import trapz
+import scipy.integrate
+
 def calc_trap_integral(func, a, b, n):
     """
     Calculate the integral of a function using the trapezoidal rule.
@@ -20,8 +20,11 @@ def calc_trap_integral(func, a, b, n):
         The approximate value of the integral.
     """
 
-    integral = trapz([func(x) for x in np.linspace(a, b, n+1)], np.linspace(a, b, n+1))
-    return integral
+    integral = scipy.integrate.trapz([func(x) for x in np.linspace(a, b, n+1)], np.linspace(a, b, n+1))
+    return round(integral, 4)
 
 # Example usage:
-print(calc_trap_integral(np.exp(x)*np.sin(x), 0, np.pi, 8))  
+def example_function(x):
+    return np.exp(x) * np.sin(x)
+
+print(calc_trap_integral(example_function, 0, np.pi, 8))  
