@@ -61,9 +61,9 @@ def heat_flux_y(temp_map, delta, k):
 
     for i in range(Lx):
         for j in range(Ly):
-            if i == 0: #bottom side
+            if i == 0: #top side
                 qy[i][j] = -k * forward_difference(temp_map[i][j], temp_map[i+1][j], delta)
-            elif i == Ly - 1: #top side
+            elif i == Ly - 1: #bottom side
                 qy[i][j] = -k * back_difference(temp_map[i-1][j], temp_map[i][j], delta)
             else: #central difference
                 qy[i][j] = -k * central_difference(temp_map[i-1][j], temp_map[i+1][j], delta)
