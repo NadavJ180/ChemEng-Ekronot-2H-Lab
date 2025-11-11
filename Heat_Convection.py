@@ -84,7 +84,7 @@ def find_max_min_flux_y(temp_map, delta, k):
 
     return max_flux, min_flux
 
-def export_mx_min_flux(temp_map, delta, k, filename):
+def export_max_min_flux(temp_map, delta, k, filename):
     max_flux_x, min_flux_x = find_max_min_flux_x(temp_map, delta, k)
     max_flux_y, min_flux_y = find_max_min_flux_y(temp_map, delta, k)
 
@@ -96,4 +96,4 @@ print(f"Max and Min Temperatures:{find_max_min_temp(temp_map)}")
 
 create_heat_map(temp_map)
 
-export_mx_min_flux(temp_map, 1, 500, 'heat_flux_output.txt')
+export_max_min_flux(temp_map, 1, 500, 'heat_flux_output.txt')
