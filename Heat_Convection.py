@@ -18,7 +18,7 @@ def find_max_min_temp(temp_map):
     return f"{max_temp[0]} K, {min_temp[0]} K"
 
 def create_heat_map(temp_map):
-    Lx, Ly = len(temp_map[0]), len(temp_map)
+    Lx, Ly = len(temp_map[0])-1, len(temp_map)-1
     extent = 0, Lx, 0, Ly
     plt.imshow(temp_map, cmap=plt.cm.plasma, interpolation='bicubic', extent=extent, origin='lower')
     plt.title('Heat Convection Map')
@@ -92,8 +92,31 @@ def export_max_min_flux(temp_map, delta, k, filename):
         file.write(f"Max and Min Heat Flux in X direction: {max_flux_x} W/cm^2, {min_flux_x} W/cm^2\n")
         file.write(f"Max and Min Heat Flux in Y direction: {max_flux_y} W/cm^2, {min_flux_y} W/cm^2\n")
 
-print(f"Max and Min Temperatures:{find_max_min_temp(temp_map)}")
+def create_heat_flux_map(qx, qy):
+    Lx, Ly = len(qx[0])-1, len(qx)-1 
+    extent = 0, Lx, 0, Ly
 
+    fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+    im1 = ax[0].imshow(qx, cmap=plt.cm.plasma, interpolation='bicubic', extent=extent, origin='lower')
+    ax[0].set_title('Heat Flux in X Direction')
+    ax[0].set_xlabel('x [cm]')
+    ax[0].set_ylabel('y [cm]')
+    fig.colorbar(im1, ax=ax[0], label='Heat Flux [W/cm^2]')
+
+    im2 = ax[1].imshow(qy, cmap=plt.cm.plasma, interpolation='bicubic', extent=extent, origin='lower')
+    ax[1].set_title('Heat Flux in Y Direction')
+    ax[1].set_xlabel('x [cm]')
+    ax[1].set_ylabel('y [cm]')
+    fig.colorbar(im2, ax=ax[1], label='Heat Flux [W/cm^2]')
+
+    plt.tight_layout()
+    plt.show()
+
+
+k= 500 #W/cm·K
+delta = 1 #cm
+
+print("Max and Min Temperatures:", find_max_min_temp(temp_map))
 create_heat_map(temp_map)
-
-export_max_min_flux(temp_map, 1, 500, 'heat_flux_output.txt')
+create_heat_flux_map(heat_flux_x(temp_map, delta, k), heat_flux_y(temp_map, delta, k))
+export_max_min_flux(temp_map, delta, k, 'heat_flux_output.txt')
