@@ -4,9 +4,14 @@ import matplotlib.pyplot as plt
 k = 5  # W/m·K
 delta = 0.01  # m
 
+
+#Section a
+
 with open('C:\\Users\\97254\\OneDrive\\Desktop\\Code\\TechnionCodeGit\\Bsc Winter Semseter 2026\\ChemEng-Ekronot-2H-Lab\\Lab_1\\temp_2D.txt', 'r') as file:
     temp_map = [[float(x) for x in line.split(' ')] for line in file]
-    
+
+#section b
+
 def find_max_min_temp(temp_map):
 
     max_temp, min_temp = [temp_map[0][0]], [temp_map[0][0]] #begins with first element of temp_map
@@ -19,6 +24,8 @@ def find_max_min_temp(temp_map):
                 min_temp[0] = temp_map[i][j]
     return f"{max_temp[0]} K, {min_temp[0]} K"
 
+#section c
+
 def create_heat_map(temp_map):
     Lx, Ly = len(temp_map[0])-1, len(temp_map)-1 #dimenstions of the map
     extent = 0, Lx, 0, Ly 
@@ -28,6 +35,8 @@ def create_heat_map(temp_map):
     plt.xlabel('x [cm]')
     plt.ylabel('y [cm]')
     plt.show()
+
+#section d
 
 def central_difference(x_minus_1, x_plus_1, delta):
     return (x_plus_1 - x_minus_1) / (2 * delta)
@@ -99,6 +108,8 @@ def export_max_min_flux(temp_map, delta, k):
         file.write(f"Max and Min Heat Flux in X direction: {max_flux_x} W/m^2, {min_flux_x} W/m^2\n")
         file.write(f"Max and Min Heat Flux in Y direction: {max_flux_y} W/m^2, {min_flux_y} W/m^2\n")
 
+#section e
+
 def create_heat_flux_map(qx, qy):
     Lx, Ly = len(qx[0])-1, len(qx)-1 #dimenstions of the map
     extent = 0, Lx, 0, Ly
@@ -125,8 +136,8 @@ def create_heat_flux_map(qx, qy):
 def find_temp_and_flux_at_y(y, temp_map, delta, k):
     temp_y = [temp_map[y][i] for i in range(len(temp_map[0]))] #finds temperature at given y
 
-    qy = heat_flux_y(temp_map, delta, k) #heat flux in y direction
-    qy_y = qy[y] #finds heat flux perpendicular to given y
+    qy = heat_flux_y(temp_map, delta, k) #heat flux in y direction of the whole map
+    qy_y = qy[y] #heat flux in y direction at given y
     return temp_y, qy_y
 
 def graph_temp_and_flux_at_y(y, temp_map, delta, k):
@@ -163,14 +174,18 @@ def export_temp_and_flux_at_y(y, temp_map, delta, k):
         for i in range(len(qy_y)):
             file.write(f"{i}, {qy_y[i]}\n")
 
+#section f
+
 def heat_power_at_y(y, temp_map, delta, k):
-    qy_y = find_temp_and_flux_at_y(y, temp_map, delta, k)[1] #heat flux perpendicular to given y
+    qy_y = find_temp_and_flux_at_y(len(temp_map)-1-y, temp_map, delta, k)[1] #heat flux in y direction at specific y
     total_heat_power = 0
     for i in range(len(qy_y)):
-        total_heat_power += qy_y[i] * delta  #integrates heat flux over the length in x direction
+        total_heat_power -= qy_y[i] * delta  #integrates heat flux over the length in x direction
 
+    print(qy_y)
     print(total_heat_power)
 
+#checks
 
 print("Max and Min Temperatures:", find_max_min_temp(temp_map))
 create_heat_map(temp_map)
