@@ -1,2 +1,2 @@
-Max and Min Heat Flux in X direction: 17500.0 W/m^2, -37500.0 W/m^2
-Max and Min Heat Flux in Y direction: 35000.0 W/m^2, -35000.0 W/m^2
+Max and Min Heat Flux in X direction: 25000.0 W/m^2, -17500.0 W/m^2
+Max and Min Heat Flux in Y direction: 17500.0 W/m^2, -25000.0 W/m^2
