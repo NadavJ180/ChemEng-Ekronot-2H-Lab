@@ -1,0 +1,43 @@
+import numpy as np
+from scipy.interpolate import interp1d
+
+
+#Q1- interpolating thermal conductivity data
+
+T, k = [] , [] #[K], [W/mK]
+with open('week_3_prep_interpolation_question_data.txt', 'r') as file:
+    for line in file:
+        T_temp, k_temp = line.split()
+        T.append(float(T_temp))
+        k.append(float(k_temp))
+
+def interpolate_thermal_conductivity(Temperature, k_values, T_values):
+    return interp1d(T_values, k_values)(Temperature)
+
+print("Thermal conductivity at 120 K:", interpolate_thermal_conductivity(120, k, T))
+
+#Q2- Bisection Method
+
+def Bisection(x_L, x_R, func, tol, max_iter=100):
+    
+    for iteration in range(max_iter):
+        x_ave = (x_L + x_R) / 2
+        f_ave = func(x_ave)
+        
+        if abs(f_ave) < tol and (x_R - x_L) / 2 < tol:
+            return x_ave
+        
+        if func(x_L) * f_ave < 0:
+            x_R = x_ave
+        else:
+            x_L = x_ave
+            
+    raise ValueError("Maximum iterations reached without convergence.")
+
+def f(x):
+    return 5*np.sin(x**2+0.5)+3-3*x**4
+
+x_L, x_R = 0, 10
+tol = 1e-5
+
+print("Root found by Bisection Method:", Bisection(x_L, x_R, f, tol))
