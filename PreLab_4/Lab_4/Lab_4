@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 import math
 import matplotlib
+import time
+from tqdm import tqdm
 
 # Given data
 
@@ -28,7 +30,7 @@ def Iterative_Fourier(q, T_i, L, delta_x, k = None):
     T_grad, K_grad = [], []  # Initialize temperature gradient list with initial temperature
     x = []
 
-    for i in range(math.floor(L/delta_x)):
+    for i in tqdm(range(math.floor(L/delta_x))):
         k_curr = K(K_to_F(T_i), T_F_data, k_data)*1.73 if k is None else k  
         T_grad.append(T_i - 273.15)  # Store temperature in Celsius
         K_grad.append(k_curr)
