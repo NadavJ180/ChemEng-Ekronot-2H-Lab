@@ -5,9 +5,15 @@ import math
 import matplotlib
 
 # Given data
-T_F_data = [100, 200, 300, 400, 500, 600]  # Temperature in F
-k_data = [0.030, 0.034, 0.039, 0.044, 0.050, 0.057]  # Thermal conductivity in Btu/(hr·ft·°F)
 
+T_K_data = [10, 20, 40, 60, 80, 100, 200, 300, 400, 500, 600, 800, 1000, 1200, 1400]  # Temperature in K
+#T_F_data = [(T - 273.15) * 9/5 + 32 for T in T_K_data]  # Convert K to F
+k_data_W_mK = [2600, 1700, 570, 290, 200, 158, 106, 91, 80, 72, 66, 67, 72, 76, 80] # Thermal conductivity in W/mK
+#k_data = [k * 1/1.73 for k in k_data_W_mK]  # Thermal conductivity in Btu/(hr·ft·°F)
+
+
+T_F_data = [100, 200, 300, 400, 500]  # Temperature in F
+k_data = [0.033, 0.037, 0.040, 0.044, 0.048]  # Thermal conductivity in Btu/(hr·ft·°F)
 #section a
 
 def K(T, T_F_data, k_data): #inter/extrapolate k
@@ -92,7 +98,7 @@ def plot_T_grad(T_grad1, T_grad2, T_grad3, K_grad, x, L): #function to plot T al
 q = 100  # Heat flux in W/m²
 L = 0.1  # Length in m
 T = 250 + 273.15  # Initial temperature in K
-delta_x = 0.0000001  # Step size in m
+delta_x = 0.000001  # Step size in m
 
 
 #section a execution
