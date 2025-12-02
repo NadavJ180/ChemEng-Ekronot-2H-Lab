@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+import tqdm
+
+# Given data
+T_F_data = [100, 200, 300, 400, 500, 600]  # Temperature in F
+k_data = [0.030, 0.034, 0.039, 0.044, 0.050, 0.057]  # Thermal conductivity in W/mK
+
+#section a
+
+def F_to_k(T_F): #function to convert F to K
+    T_K = (T_F - 32) * 5/9 + 273.15
+    return T_K
+
+T_K_data = F_to_k(np.array(T_F_data)) #convert T data to K
+
+def linear_interp(x, y, x_new): #general linear interpolation function
+    f = interp1d(x, y)
+    return f(x_new)
+
+def Fourier(q, T_i, delta_x):
+    k = linear_interp(T_K_data, k_data, T_i) # W/mK
+    T_f = T_i - (q * delta_x) / k
+    return T_f
+
+def Iterative_Fourier(q, T_i, delta_x, dist):
+    sum_dist = 0
+    T_old = T_i
+    for _ in tqdm.tqdm(range(int(dist/delta_x))):
+        k = linear_interp(T_F_data, k_data, T_old)
+        T_new = T_i - (q * delta_x) / k
+        sum_dist += delta_x
+        if sum_dist >= dist:
+            return T_new
+        T_old = T_new
+
+
+print(Iterative_Fourier(30, 573, 0.1, 0.6)-273.15) #final temp in C
